@@ -2,3 +2,4 @@
 ckpt/
 model/
 mdmb/
+*.xml
