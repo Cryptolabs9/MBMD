@@ -1,26 +1,12 @@
-import cv2
-import os
-from region_to_bbox import region_to_bbox
-import time
-import tensorflow as tf
-import numpy as np
-from google.protobuf import text_format
-from object_detection.protos import pipeline_pb2
-from core.model_builder import build_man_model
-from object_detection.core import box_list
-from object_detection.core import box_list_ops
 from PIL import Image
 Image.MAX_IMAGE_PIXELS = 1000000000
-import scipy.io as sio
 import vot
 import sys
-import random
 from vggm import vggM
 from sample_generator import *
 from tracking_utils import *
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
-sys.path.append('/home/xiaobai/Desktop/MBMD_vot_code/lib')
-sys.path.append('/home/xiaobai/Desktop/MBMD_vot_code/lib/slim')
+
+os.environ["CUDA_VISIBLE_DEVICES"]=""
 
 def _compile_results(gt, bboxes, dist_threshold):
     l = np.size(bboxes, 0)

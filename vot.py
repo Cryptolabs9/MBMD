@@ -13,12 +13,11 @@ import sys
 import copy
 import collections
 
-try:
-    import trax
-    import trax.server
-    TRAX = True
-except ImportError:
-    TRAX = False
+
+import trax
+import trax.server
+TRAX = True
+
 
 Rectangle = collections.namedtuple('Rectangle', ['x', 'y', 'width', 'height'])
 Point = collections.namedtuple('Point', ['x', 'y'])
@@ -79,6 +78,7 @@ def convert_region(region, to):
 
     return None
 
+
 class VOT(object):
     """ Base class for Python VOT integration """
     def __init__(self, region_format):
@@ -89,8 +89,14 @@ class VOT(object):
         """
         assert(region_format in ['rectangle', 'polygon'])
         if TRAX:
-            options = trax.server.ServerOptions(region_format, trax.image.PATH)
-            self._trax = trax.server.Server(options)
+            # NEXT LINES HAVE CHANGED
+            # ORIGINAL ONES
+            # options = trax.server.ServerOptions(region_format, trax.image.PATH)
+            # self._trax = trax.server.Server(options)
+            # CHANGED ONES
+            self._trax = trax.server.Server(region_format, trax.image.Image.PATH)
+            # -------------------
+
 
             request = self._trax.wait()
             assert(request.type == 'initialize')
@@ -129,7 +135,7 @@ class VOT(object):
             if isinstance(region, Polygon):
                 tregion = trax.region.Polygon([(x.x, x.y) for x in region.points])
             else:
-                tregion = trax.region.Rectangle(region.x, region.y, region.width, region.height)
+                tregion = trax.region.Rectangle.create(region.x, region.y, region.width, region.height)
             self._trax.status(tregion, {"confidence" : confidence})
         else:
             self._result.append(region)

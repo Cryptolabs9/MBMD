@@ -1,4 +1,3 @@
-
 %error('Tracker not configured! Please edit the tracker_MBMDNET.m file.'); % Remove this line after proper configuration
 
 % The human readable label for the tracker, used to identify the tracker in reports
